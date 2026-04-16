@@ -19,7 +19,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
 
-# ── 환경 변수 ─────────────────────────────────────────────────────────────────
+# ── 환경 변수 ──────────────────────────────────────────────────────────────────
 load_dotenv()  # .env 파일에서 GOOGLE_API_KEY 로드
 
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
@@ -139,11 +139,11 @@ def split_documents(documents: list[Document]) -> list[Document]:
 def _get_embeddings() -> GoogleGenerativeAIEmbeddings:
     """
     Gemini 임베딩 모델을 반환합니다.
-    models/text-embedding-004 : 768차원, 다국어 지원, 무료 티어 제공
+    models/embedding-001 : v1beta API와 호환되는 안정 버전
     task_type="retrieval_document" : RAG 검색에 최적화된 임베딩 생성
     """
     return GoogleGenerativeAIEmbeddings(
-        model="models/text-embedding-004",
+        model="models/embedding-001",
         google_api_key=GOOGLE_API_KEY,
         task_type="retrieval_document",
     )
@@ -239,7 +239,7 @@ def build_rag_chain(vectorstore: FAISS):
     """
     # 쿼리용 임베딩은 task_type을 retrieval_query로 별도 설정
     query_embeddings = GoogleGenerativeAIEmbeddings(
-        model="models/text-embedding-004",
+        model="models/embedding-001",
         google_api_key=GOOGLE_API_KEY,
         task_type="retrieval_query",
     )
